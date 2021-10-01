@@ -4,13 +4,246 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="documentation.css" />
     <title>Document</title>
   </head>
   <body>
-    myFlix API
-    <br />
-    This API will provide users with information about different movies,
-    directors, and genres. Users can sign up to create a list of their favorite
-    movies.
+    <h1>myFlix API</h1>
+
+    <h3>
+      This API will provide users with information about different movies,
+      directors, and genres. Users can sign up to create a list of their
+      favorite movies.
+    </h3>
+
+    <p>Request documentation table below.</p>
+
+    <div class="divTable">
+      <div class="divTableBody">
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>&shy;&shy;&shy;&shy;&shy;Request</p>
+          </div>
+          <div class="divTableCell">
+            <p>URL</p>
+          </div>
+          <div class="divTableCell">
+            <p>HTTP Method</p>
+          </div>
+          <div class="divTableCell">
+            <p>Request body data format</p>
+          </div>
+          <div class="divTableCell">
+            <p>Response body data format</p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Get a list of ALL movies</p>
+          </div>
+          <div class="divTableCell">
+            <p>/movies</p>
+          </div>
+          <div class="divTableCell">
+            <p>GET</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>A JSON object holding data about all movies</p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Get data about a single movie by title</p>
+          </div>
+          <div class="divTableCell">
+            <p>/movies/[Title]</p>
+          </div>
+          <div class="divTableCell">
+            <p>GET</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A JSON object holding data about a single movie containing a
+              title, description, genre,&nbsp; director, image URL, and whether
+              it&rsquo;s featured or not.
+            </p>
+            <p>&nbsp;</p>
+            <p>Example:</p>
+            <p>{</p>
+            <p>title: &ldquo;Pulp Fiction&rdquo;,</p>
+            <p>
+              description: &ldquo;American neo-noir black comedy crime
+              film.&rdquo;,
+            </p>
+            <p>genre: { Crime, Drama},</p>
+            <p>director: &ldquo;Quentin Tarantino&rdquo;,</p>
+            <p>
+              imageURL: &ldquo;<a
+                href="https://lh3.googleusercontent.com/proxy/bfon9rjsylO94vCIRhchuvKBMtCut2GGv0Urymj9aU6vCRRXx9Tg-FaZBYSikwKXCjKpg1j21WU6FUbV3P3fmz8vDSMS89MuBX9vGuwc_wdW9YOjPwMXR1eZRqLo7Opxdy0I6LXiGcA82UR6SWEqJgA"
+                >https://lh3.googleusercontent.com/proxy/bfon9rjsylO94vCIRhchuvKBMtCut2GGv0Urymj9aU6vCRRXx9Tg-FaZBYSikwKXCjKpg1j21WU6FUbV3P3fmz8vDSMS89MuBX9vGuwc_wdW9YOjPwMXR1eZRqLo7Opxdy0I6LXiGcA82UR6SWEqJgA</a
+              >&rdquo; ,
+            </p>
+            <p>featured: &ldquo;No&rdquo;</p>
+            <p>}</p>
+            <p>&nbsp;</p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Get a description of genre by genre name</p>
+          </div>
+          <div class="divTableCell">
+            <p>/genres/[Name]</p>
+          </div>
+          <div class="divTableCell">
+            <p>GET</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A JSON object holding genres and their respective descriptions
+            </p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Get data about a single director by name</p>
+          </div>
+          <div class="divTableCell">
+            <p>/directors/[Name]</p>
+          </div>
+          <div class="divTableCell">
+            <p>GET</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A JSON object holding data about a single director Example: {
+              name: "Steven Speilberg", bio: "Steven Allan Spielberg is an
+              American film director, producer, and screenwriter. He began his
+              career in the New Hollywood era, and is currently the most
+              commercially successful director.", birthYear: "1946", deathYear:
+              "N/A", }
+            </p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Register a new user</p>
+          </div>
+          <div class="divTableCell">
+            <p>/users</p>
+          </div>
+          <div class="divTableCell">
+            <p>POST</p>
+          </div>
+          <div class="divTableCell">
+            <p>A JSON object holding data about a user. Example:</p>
+            <p>{username: "movielover7",</p>
+            <p>password: "pass123",</p>
+            <p>email: "movielover@gmail.com"</p>
+            <p>}</p>
+          </div>
+          <div class="divTableCell">
+            <p>A JSON object holding data about a user. Example:</p>
+            <p>{&shy;&shy;&shy;&shy;&shy;&shy;&shy;</p>
+            <p>username: "movielover7",</p>
+            <p>password: "pass123",</p>
+            <p>email: "movielover@gmail.com"</p>
+            <p>}</p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Update a user&rsquo;s info</p>
+          </div>
+          <div class="divTableCell">
+            <p>/users/[username]</p>
+          </div>
+          <div class="divTableCell">
+            <p>PUT</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A text message indicating a user&rsquo;s username, password, or
+              email was updated
+            </p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Allow a user to add movies to their list of favorites</p>
+          </div>
+          <div class="divTableCell">
+            <p>/users/[username]/movielist</p>
+          </div>
+          <div class="divTableCell">
+            <p>POST</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A JSON object holding data about a user&rsquo;s favorite movie
+              titles: {
+            </p>
+            <p>id: 5,</p>
+            <p>movielist: {movie title 1, movie title 2, movie title 3}</p>
+            <p>}</p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Remove a movie from a user&rsquo;s list</p>
+          </div>
+          <div class="divTableCell">
+            <p>/users/[username]/movielist</p>
+          </div>
+          <div class="divTableCell">
+            <p>DELETE</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>
+              A text message indicating a movie has been removed from a
+              user&rsquo;s list
+            </p>
+          </div>
+        </div>
+        <div class="divTableRow">
+          <div class="divTableCell">
+            <p>Deregister a user</p>
+          </div>
+          <div class="divTableCell">
+            <p>/users/[username]</p>
+          </div>
+          <div class="divTableCell">
+            <p>DELETE</p>
+          </div>
+          <div class="divTableCell">
+            <p>None</p>
+          </div>
+          <div class="divTableCell">
+            <p>A text message indicating a user has been removed</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
