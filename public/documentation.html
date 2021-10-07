@@ -10,244 +10,207 @@
   <body>
     <h1>myFlix API</h1>
 
-    <h3>
+    <p>
       This API will provide users with information about different movies,
       directors, and genres. Users can sign up to create a list of their
       favorite movies.
-    </h3>
-
+    </p>
     <p>Request documentation table below.</p>
 
-    <div class="divTable">
-      <div class="divTableBody">
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>&shy;&shy;&shy;&shy;&shy;Request</p>
-          </div>
-          <div class="divTableCell">
-            <p>URL</p>
-          </div>
-          <div class="divTableCell">
-            <p>HTTP Method</p>
-          </div>
-          <div class="divTableCell">
-            <p>Request body data format</p>
-          </div>
-          <div class="divTableCell">
-            <p>Response body data format</p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Get a list of ALL movies</p>
-          </div>
-          <div class="divTableCell">
-            <p>/movies</p>
-          </div>
-          <div class="divTableCell">
-            <p>GET</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>A JSON object holding data about all movies</p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Get data about a single movie by title</p>
-          </div>
-          <div class="divTableCell">
-            <p>/movies/[Title]</p>
-          </div>
-          <div class="divTableCell">
-            <p>GET</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A JSON object holding data about a single movie containing a
-              title, description, genre,&nbsp; director, image URL, and whether
-              it&rsquo;s featured or not.
-            </p>
-            <p>&nbsp;</p>
-            <p>Example:</p>
-            <p>{</p>
-            <p>title: &ldquo;Pulp Fiction&rdquo;,</p>
-            <p>
-              description: &ldquo;American neo-noir black comedy crime
-              film.&rdquo;,
-            </p>
-            <p>genre: { Crime, Drama},</p>
-            <p>director: &ldquo;Quentin Tarantino&rdquo;,</p>
-            <p>
-              imageURL: &ldquo;<a
-                href="https://lh3.googleusercontent.com/proxy/bfon9rjsylO94vCIRhchuvKBMtCut2GGv0Urymj9aU6vCRRXx9Tg-FaZBYSikwKXCjKpg1j21WU6FUbV3P3fmz8vDSMS89MuBX9vGuwc_wdW9YOjPwMXR1eZRqLo7Opxdy0I6LXiGcA82UR6SWEqJgA"
-                >https://lh3.googleusercontent.com/proxy/bfon9rjsylO94vCIRhchuvKBMtCut2GGv0Urymj9aU6vCRRXx9Tg-FaZBYSikwKXCjKpg1j21WU6FUbV3P3fmz8vDSMS89MuBX9vGuwc_wdW9YOjPwMXR1eZRqLo7Opxdy0I6LXiGcA82UR6SWEqJgA</a
-              >&rdquo; ,
-            </p>
-            <p>featured: &ldquo;No&rdquo;</p>
-            <p>}</p>
-            <p>&nbsp;</p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Get a description of genre by genre name</p>
-          </div>
-          <div class="divTableCell">
-            <p>/genres/[Name]</p>
-          </div>
-          <div class="divTableCell">
-            <p>GET</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A JSON object holding genres and their respective descriptions
-            </p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Get data about a single director by name</p>
-          </div>
-          <div class="divTableCell">
-            <p>/directors/[Name]</p>
-          </div>
-          <div class="divTableCell">
-            <p>GET</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A JSON object holding data about a single director Example: {
-              name: "Steven Speilberg", bio: "Steven Allan Spielberg is an
-              American film director, producer, and screenwriter. He began his
-              career in the New Hollywood era, and is currently the most
-              commercially successful director.", birthYear: "1946", deathYear:
-              "N/A", }
-            </p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Register a new user</p>
-          </div>
-          <div class="divTableCell">
-            <p>/users</p>
-          </div>
-          <div class="divTableCell">
-            <p>POST</p>
-          </div>
-          <div class="divTableCell">
-            <p>A JSON object holding data about a user. Example:</p>
-            <p>{username: "movielover7",</p>
-            <p>password: "pass123",</p>
-            <p>email: "movielover@gmail.com",</p>
-            <p>birthday: "YYYY-MM-DD"</p>
-            <p>favoriteMovies: []</p>
-            <p>}</p>
-          </div>
-          <div class="divTableCell">
-            <p>A JSON object holding data about a user. Example:</p>
-            <p>{&shy;&shy;&shy;&shy;&shy;&shy;&shy;</p>
-            <p>username: "movielover7",</p>
-            <p>password: "pass123",</p>
-            <p>email: "movielover@gmail.com",</p>
-            <p>birthday: "YYYY-MM-DD"</p>
-            <p>favoriteMovies: []</p>
-            <p>}</p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Update a user&rsquo;s info</p>
-          </div>
-          <div class="divTableCell">
-            <p>/users/[username]</p>
-          </div>
-          <div class="divTableCell">
-            <p>PUT</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A text message indicating a user&rsquo;s username, password, or
-              email was updated
-            </p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Allow a user to add movies to their list of favorites</p>
-          </div>
-          <div class="divTableCell">
-            <p>/users/[username]/movielist</p>
-          </div>
-          <div class="divTableCell">
-            <p>POST</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A JSON object holding data about a user&rsquo;s favorite movie
-              titles: {
-            </p>
-            <p>id: 5,</p>
-            <p>favoriteMovies: {movie title 1, movie title 2, movie title 3}</p>
-            <p>}</p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Remove a movie from a user&rsquo;s list</p>
-          </div>
-          <div class="divTableCell">
-            <p>/users/[username]/movielist</p>
-          </div>
-          <div class="divTableCell">
-            <p>DELETE</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>
-              A text message indicating a movie has been removed from a
-              user&rsquo;s list
-            </p>
-          </div>
-        </div>
-        <div class="divTableRow">
-          <div class="divTableCell">
-            <p>Deregister a user</p>
-          </div>
-          <div class="divTableCell">
-            <p>/users/[username]</p>
-          </div>
-          <div class="divTableCell">
-            <p>DELETE</p>
-          </div>
-          <div class="divTableCell">
-            <p>None</p>
-          </div>
-          <div class="divTableCell">
-            <p>A text message indicating a user has been removed</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Request</th>
+          <th>URL</th>
+          <th>HTTP Method</th>
+          <th>Request body data format</th>
+          <th>Response body data format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get a list of ALL movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding data about all movies</td>
+        </tr>
+
+        <tr>
+          <td>Get data about a single movie by title</td>
+          <td>/movies/[Title]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about a single movie <br />
+            Example: <br />
+            {<br />
+            _id: "615bf0ddb0d8847c3857633a",<br />
+            Title: "Pulp Fiction",<br />
+            Genre: {<br />
+            Name: "Crime" <br />
+            Description: "Films of this genre generally involve various aspects
+            of crime and its detection."<br />
+            },<br />
+            Director: {<br />
+            Name: "Quentin Tarantino" <br />
+            Bio: "Quentin Tarantino is an American film director, screenwriter,
+            producer, author, film critic, and actor.",<br />
+            Birth: "YYYY-MM-DD", <br />
+            Death: "YYYY-MM-DD" (If Applicable, otherwise left blank) <br />
+            } <br />
+            Description: "Vincent Vega and Jules Winnfield are hitmen with a
+            penchant for philosophical discussions. In this ultra-hip,
+            multi-strand crime movie...",<br />
+            ImagePath: "pulpfiction.png",<br />
+            "Featured": true <br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Get a description of genre by genre name</td>
+          <td>/genres/[Name]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            A JSON object holding genre name and genre description. <br />
+            Example: <br />
+            { <br />
+            Name: "Comedy", <br />
+            Description: "Comedy is a genre of film in which the main emphasis
+            is on humor. These films are designed to make the audience laugh
+            through amusement and most often work by exaggerating
+            characteristics for humorous effect." <br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Get data about a single director by name</td>
+          <td>/directors/[Name]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            A JSON object holding data about a single director. <br />
+            Example: <br />
+            {<br />
+            Name: "Quentin Tarantino" <br />
+            Bio: "Quentin Tarantino is an American film director, screenwriter,
+            producer, author, film critic, and actor.",<br />
+            Birth: "YYYY-MM-DD", <br />
+            Death: "YYYY-MM-DD" (If Applicable, otherwise left blank) <br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Register a new user</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>
+            A JSON object holding data about a user. <br />
+            Example: <br />
+            {<br />
+            "Username": "newuser808", <br />
+            "Password": "newuserpass1", <br />
+            "Email": "newuseremail@gmail.com", <br />
+            "Birthday": "12/15/2000" <br />
+            } <br />
+          </td>
+          <td>
+            A JSON object holding data about a user. <br />
+            Example: <br />
+            {<br />
+            _id: "615e37e0468a93cb35849356",<br />
+            Username: "newuser808",<br />
+            Password: "newuserpass1",<br />
+            Email: "newuseremail@gmail.com",<br />
+            Birthday: "2000-12-15T08:00:00.000Z",<br />
+            FavoriteMovies: [],<br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Update a user's info by username</td>
+          <td>/users/[Username]</td>
+          <td>PUT</td>
+          <td>
+            A JSON object holding updated data about a user. <br />
+            Example: <br />
+            {<br />
+            "Username": "newuser808", <br />
+            "Password": "password$Movies", <br />
+            "Email": "newuseremail@gmail.com", <br />
+            "Birthday": "12/15/2000" <br />
+            } <br />
+          </td>
+          <td>
+            A JSON object holding updated data about a user. <br />
+            Example: <br />
+            {<br />
+            _id: "615e37e0468a93cb35849356",<br />
+            Username: "newuser808",<br />
+            Password: "password$Movies",<br />
+            Email: "newuseremail@gmail.com",<br />
+            Birthday: "2000-12-15T08:00:00.000Z",<br />
+            FavoriteMovies: [],<br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Add movies to a user's favorites list</td>
+          <td>/users/[Username]/movies[MovieID]</td>
+          <td>POST</td>
+          <td>None</td>
+          <td>
+            A JSON object holding updated data about a user's favorites list.
+            <br />
+            Example: <br />
+            { <br />
+            _id: "615bff28b0d8847c3857637d", <br />
+            Username: "movielover1", <br />
+            Password: "123123",<br />
+            Email:"movielover1@gmail.com", <br />
+            Birthday: "1990-01-01T00:00:00.000Z", <br />
+            FavoriteMovies: [ "615b58a30979c53e725c322c",
+            "615bce82aa85b8228f70cf67", "615bd521aa85b8228f70cf69",
+            "615bf0ddb0d8847c3857633a" ] <br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Remove a movie from a user's list</td>
+          <td>/users/[Username]/movies[MovieID]</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>
+            A JSON object holding updated data about a user's favorites list.
+            <br />
+            Example: <br />
+            { <br />
+            _id: "615bff28b0d8847c3857637d", <br />
+            Username: "movielover1", <br />
+            Password: "123123",<br />
+            Email:"movielover1@gmail.com", <br />
+            Birthday: "1990-01-01T00:00:00.000Z", <br />
+            FavoriteMovies: [ "615b58a30979c53e725c322c",
+            "615bce82aa85b8228f70cf67", "615bd521aa85b8228f70cf69" ] <br />
+            } <br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>Deregister a user</td>
+          <td>/users/[Username]</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>A message indicating "[Username] has been deleted".</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
