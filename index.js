@@ -1,118 +1,30 @@
 const express = require("express"),
   bodyParser = require("body-parser"),
-  uuid = require("uuid"),
-  morgan = require("morgan");
-const { escapeRegExp } = require("lodash");
+  uuid = require("uuid");
 
-const app = express();
+const morgan = require("morgan"),
+  app = express(),
+  mongoose = require("mongoose"),
+  Models = require("./models.js");
+
+const Movies = Models.Movie;
+const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Models.Director;
+
+const { escapeRegExp, rest } = require("lodash");
+
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(morgan("common"));
 
 app.use(bodyParser.json());
 
-// express.static function
+// access documentation.html using express.static function
 app.use(express.static("public"));
-
-// movie array
-let movies = [
-  {
-    title: "The Dark Knight",
-    director: "Christopher Nolan",
-  },
-  {
-    title: "A Space Odyssey",
-    director: "Stanley Kubrick",
-  },
-  {
-    title: "Goodfellas",
-    director: "Martin Scorsese",
-  },
-  {
-    title: "Catch Me If You Can",
-    director: "Steven Spielberg",
-  },
-  {
-    title: "Pulp Fiction",
-    director: "Quentin Tarantino",
-  },
-  {
-    title: "Spirited Away",
-    director: "Hayao Miyazaki",
-  },
-  {
-    title: "The Good, the Bad and the Ugly",
-    director: "Sergio Leone",
-  },
-  {
-    title: "Finding Nemo",
-    director: "Lee Unkrich",
-  },
-  {
-    title: "Avatar",
-    director: "James Cameron",
-  },
-  {
-    title: "A Beautiful Mind",
-    director: "Ron Howard",
-  },
-];
-
-let genres = [
-  { name: "Thriller", description: "Lorem Ipsum" },
-  {
-    name: "Action",
-    description:
-      "Action films usually include high energy, big-budget physical stunts and chases, possibly with rescues, battles, fights, escapes, destructive crises (floods, explosions, natural disasters, fires, etc.), non-stop motion, spectacular rhythm and pacing, and adventurous, often two-dimensional 'good-guy' heroes (or recently, heroines) battling 'bad guys' - all designed for pure audience escapism. Includes the James Bond 'fantasy' spy/espionage series, martial arts films, video-game films, so-called 'blaxploitation' films, and some superhero films.",
-  },
-  {
-    name: "Adventure",
-    description:
-      "Adventure films are usually exciting stories, with new experiences or exotic locales, very similar to or often paired with the action film genre. They can include traditional swashbucklers or pirate films, serialized films, and historical spectacles (similar to the epics film genre), searches or expeditions for lost continents, 'jungle' and 'desert' epics, treasure hunts, disaster films, or searches for the unknown.",
-  },
-  {
-    name: "Comedy",
-    description:
-      "Comedies are light-hearted plots consistently and deliberately designed to amuse and provoke laughter (with one-liners, jokes, etc.) by exaggerating the situation, the language, action, relationships and characters. This section describes various forms of comedy through cinematic history, including slapstick, screwball, spoofs and parodies, romantic comedies, black comedy (dark satirical comedy), and more.",
-  },
-  {
-    name: "Crime",
-    description:
-      "Crime films are developed around the sinister actions of criminals or mobsters, particularly bankrobbers, underworld figures, or ruthless hoodlums who operate outside the law, stealing and murdering their way through life. The criminals or gangsters are often counteracted by a detective-protagonist with a who-dun-it plot. Hard-boiled detective films reached their peak during the 40s and 50s (classic film noir), although have continued to the present day. Therefore, crime and gangster films are often categorized as film noir or detective-mystery films, and sometimes as courtroom/crime legal thrillers - because of underlying similarities between these cinematic forms. This category also includes various 'serial killer' films.",
-  },
-  {
-    name: "Drama",
-    description:
-      "Dramas are serious, plot-driven presentations, portraying realistic characters, settings, life situations, and stories involving intense character development and interaction. Usually, they are not focused on special-effects, comedy, or action, Dramatic films are probably the largest film genre, with many subsets.",
-  },
-  {
-    name: "Horror",
-    description:
-      "Horror films are designed to frighten and to invoke our hidden worst fears, often in a terrifying, shocking finale, while captivating and entertaining us at the same time in a cathartic experience. Horror films feature a wide range of styles, from the earliest silent Nosferatu classic, to today's CGI monsters and deranged humans. They are often combined with science fiction when the menace or monster is related to a corruption of technology, or when Earth is threatened by aliens. The fantasy and supernatural film genres are not always synonymous with the horror genre. There are many sub-genres of horror: slasher, splatter, psychological, survival, teen terror, 'found footage,' serial killers, paranormal/occult, zombies, Satanic, monsters, Dracula, Frankenstein, etc.",
-  },
-];
-
-let directors = [
-  {
-    name: "Ron Howard",
-    bio: "Ronald William Howard is an American film director, producer, and actor. Howard first came to prominence as a child actor, guest-starring in several television series, including an episode of The Twilight Zone.",
-    birthYear: "1954",
-    deathYear: "N/A",
-  },
-
-  {
-    name: "Quentin Tarantino",
-    bio: "Quentin Jerome Tarantino is an American film director, screenwriter, producer, author, film critic, and actor. His films are characterized by nonlinear storylines, dark humor, stylized violence, extended dialogue, ensemble casts, references to popular culture, alternate history, and neo-noir.",
-    birthYear: "1963",
-    deathYear: "N/A",
-  },
-
-  {
-    name: "Steven Speilberg",
-    bio: "Steven Allan Spielberg is an American film director, producer, and screenwriter. He began his career in the New Hollywood era, and is currently the most commercially successful director.",
-    birthYear: "1946",
-    deathYear: "N/A",
-  },
-];
 
 // GET requests
 app.get("/", (req, res) => {
@@ -122,146 +34,188 @@ app.get("/", (req, res) => {
 //Get the list of ALL movies
 
 app.get("/movies", (req, res) => {
-  res.json(movies);
+  Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-//get data about a single movie by title [case sensitive]
-
-app.get("/movies/:title", (req, res) => {
-  res.json(
-    movies.find((movie) => {
-      return movie.title === req.params.title;
+//Get list of all users (this isn't asked for in the app ,but is helpful to see if a user info was updated or de-registered )
+app.get("/users", (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+//get data about a single movie by title
+
+app.get("/movies/:Title", (req, res) => {
+  Movies.findOne({ Title: req.params.Title })
+    .then((movie) => {
+      res.json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //get a description about a genre by genre name
 
-app.get("/genres/:name", (req, res) => {
-  res.json(
-    genres.find((genre) => {
-      return genre.name === req.params.name;
+app.get("/genres/:Name", (req, res) => {
+  Movies.findOne({ "Genre.Name": req.params.Name })
+    .then((genre) => {
+      res.json(genre.Genre);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //get data about a single director by name
 
-app.get("/directors/:name", (req, res) => {
-  res.json(
-    directors.find((director) => {
-      return director.name === req.params.name;
+app.get("/directors/:Name", (req, res) => {
+  Movies.findOne({ "Director.Name": req.params.Name })
+    .then((director) => {
+      res.json(director.Director);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 // Register a new user
-let users = [
-  {
-    id: 1,
-    username: "movielover7",
-    password: "pass123",
-    email: "movielover@gmail.com",
-    movieList: [],
-  },
-  {
-    id: 2,
-    username: "movielover8",
-    password: "pass124",
-    email: "movielover@gmail.com",
-    movieList: [],
-  },
-];
-
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
 app.post("/users", (req, res) => {
-  let newUser = req.body;
-  if (!newUser.username) {
-    const message = "Missing 'username' in request body";
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    // adds an empty array for a new user's movieList
-    newUser.movieList = [];
-
-    users.push(newUser);
-    res.status(201).send(newUser);
-  }
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + "already exists");
+      } else {
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
 });
 
-//updated a user's info
-
-app.put("/users/:username", (req, res) => {
-  let user = users.find((user) => {
-    return user.username === req.params.username;
-  });
-
-  //additional coding needed here
-
-  res.send(req.params.username + "'s data was updated.");
+// Update a user's info, by username
+/* We’ll expect JSON in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
+app.put("/users/:Username", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
-//allow a user to add movies to their list of favorites
-
-app.post("/users/:username/movielist/:title", (req, res) => {
-  let movie = movies.find((movie) => {
-    return movie.title === req.params.title;
-  });
-
-  let user = users.find((user) => {
-    return user.username === req.params.username;
-  });
-
-  if (movie && user) {
-    user.movieList.push(movie);
-
-    res.send(
-      req.params.title +
-        " has been added to " +
-        req.params.username +
-        "'s movie list."
-    );
-  } else {
-    res.status(404).send("Movie or user has not been found.");
-  }
+// Add a movie to a user's list of favorites
+app.post("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
 //remove a movie from a user's list
-
-app.delete("/users/:username/movielist/:title", (req, res) => {
-  let movie = movies.find((movie) => {
-    return movie.title === req.params.title;
-  });
-
-  let user = users.find((user) => {
-    return user.username === req.params.username;
-  });
-
-  if (movie && user) {
-    user.movieList = user.movieList.filter((favorite) => {
-      return favorite.title !== movie.title;
-    });
-    res
-      .status(201)
-      .send(movie.title + " has been deleted from your favorites list.");
-  } else {
-    res.status(404).send("Movie or user not found.");
-  }
+app.delete("/users/:Username/movies/:MovieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $pull: { FavoriteMovies: req.params.MovieID } },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
-//Deregister a user
-app.delete("/users/:username", (req, res) => {
-  let user = users.find((user) => {
-    return user.username === req.params.username;
-  });
-
-  if (user) {
-    users = users.filter((obj) => {
-      return obj.username !== req.params.username;
+// Delete a user by username
+app.delete("/users/:Username", (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + " was not found");
+      } else {
+        res.status(200).send(req.params.Username + " was deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
     });
-    res.status(201).send(req.params.username + " has been deleted.");
-  } else {
-    res.status(404).send("User not found");
-  }
 });
 
 // error handling
