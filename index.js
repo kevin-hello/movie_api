@@ -23,6 +23,14 @@ app.use(morgan("common"));
 
 app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+//imports auth.js file
+let auth = require("./auth")(app);
+
+//import passport.js file
+const passport = require("passport");
+require("./passport");
+
 // access documentation.html using express.static function
 app.use(express.static("public"));
 
@@ -30,7 +38,6 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.send("Welcome to my movie API!");
 });
-
 //Get the list of ALL movies
 
 app.get("/movies", (req, res) => {
