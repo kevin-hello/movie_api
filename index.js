@@ -12,12 +12,33 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
+const { check, validationResult } = require("express-validator");
+
 const { escapeRegExp, rest } = require("lodash");
 
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+// CORS added
+
+let allowedOrigins = ["http://localhost:8080", "http://placeholdersite.com"];
+const cors = require("cors");
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        //if a specific origin isnt found on the list of allowed origins
+        let message =
+          "The CORS policy for this application doesn't allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 app.use(morgan("common"));
 
@@ -105,22 +126,44 @@ app.get(
   Email: String,
   Birthday: Date
 }*/
-app.post("/users", (req, res) => {
-  Users.findOne({ Username: req.body.Username }).then((user) => {
-    if (user) {
-      return res.status(400).send(req.body.Username + "already exists");
-    } else {
-      Users.create({
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday,
-      }).then((user) => {
-        res.status(201).json(user);
-      });
+app.post(
+  "/users",
+  //validation logic
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "username",
+      "Username contains non alphanumeric characters - not allowed."
+    ).isAlphanumeric(),
+    check("Password", "Password is required").not().isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail(),
+  ],
+  (req, res) => {
+    // check the validation object for errors
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-  });
-});
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username })
+      //searching to see if user with requested username already exists
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + "already exists");
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
+          }).then((user) => {
+            res.status(201).json(user);
+          });
+        }
+      });
+  }
+);
 
 // Update a user's info, by username
 /* We’ll expect JSON in this format
@@ -231,6 +274,7 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.", () => {
+  console.log("Your app is listening on port" + port);
 });
