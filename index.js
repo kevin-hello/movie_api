@@ -22,7 +22,8 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 });
 // CORS added
 
-let allowedOrigins = ["http://localhost:8080", "http://placeholdersite.com"];
+let allowedOrigins = ["http://localhost:8080", "https://git.heroku.com/my-flix-movies-app.git
+"];
 const cors = require("cors");
 app.use(
   cors({
