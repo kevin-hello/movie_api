@@ -44,7 +44,7 @@ require("./passport");
 app.use(express.static("public"));
 
 // GET requests
-app.get("/", (req, res) => {
+app.get("/hello", (req, res) => {
   res.send("Welcome to my movie API!");
 });
 //Get the list of ALL movies
