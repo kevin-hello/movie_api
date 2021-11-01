@@ -12,6 +12,7 @@ const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
 
+//input validator
 const { check, validationResult } = require("express-validator");
 
 const { escapeRegExp, rest } = require("lodash");
@@ -259,6 +260,6 @@ app.use((err, req, res, next) => {
 
 // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, "0.0.0.", () => {
-  console.log("Your app is listening on port" + port);
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port " + port);
 });
