@@ -16,11 +16,18 @@ const Directors = Models.Director;
 const { check, validationResult } = require("express-validator");
 
 const { escapeRegExp, rest } = require("lodash");
+//local connection
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//URI connection
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 // CORS added
 
 const cors = require("cors");
