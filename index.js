@@ -66,12 +66,16 @@ app.get(
   }
 );
 
-//Get list of all users (this isn't asked for in the app ,but is helpful to see if a user info was updated or de-registered )
-app.get("/users", (req, res) => {
-  Users.find().then((users) => {
-    res.status(201).json(users);
-  });
-});
+//Get data about a single user by Username
+app.get(
+  "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.findOne({ Username: req.params.Username }).then((user) => {
+      res.json(user);
+    });
+  }
+);
 
 //get data about a single movie by title
 
