@@ -71,9 +71,11 @@ app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Users.findOne({ Username: req.params.Username }).then((user) => {
-      res.json(user);
-    });
+    Users.findOne({ Username: req.params.Username })
+      .populate("favoriteMovies")
+      .then((user) => {
+        res.json(user);
+      });
   }
 );
 
