@@ -72,7 +72,7 @@ app.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
-      .populate("favoriteMovies")
+      .populate("FavoriteMovies")
       .then((user) => {
         res.json(user);
       });
